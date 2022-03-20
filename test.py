@@ -46,27 +46,28 @@ def getKey(item):
     return item[1]
 
 def mutation_func(parent_sol):
-    index_1 = random.randint(1,10)
-    index_2 = random.randint(1,10)
+    deg = 3
+    for x in range(deg):
+        index_1 = random.randint(1,9)
+        index_2 = random.randint(1,9)
 
-    while (index_1 == index_2):
-        index_2 = random.randint(1,10)
+        while (index_1 == index_2):
+            index_2 = random.randint(1,9)
 
-    temp = parent_sol[index_1]
-    parent_sol[index_1] = parent_sol[index_2]
-    parent_sol[index_2] = temp
+        temp = parent_sol[index_1]
+        parent_sol[index_1] = parent_sol[index_2]
+        parent_sol[index_2] = temp
 
     return parent_sol
 
 
 def gen_algo(GA_arr):
-    temp_GA = GA_arr[:5]
-    for parent in range (5):
-        for mutation in range (10):
+    temp_GA = GA_arr[:10]
+    for parent in range (10):
+        for mutation in range (25):
             new_sol = mutation_func(temp_GA[parent][0])
-            #cost = path_weight(G, new_sol, weight="weight")
-            temp_GA.append((new_sol, 0))
-    
+            cost = path_weight(G, new_sol, weight="weight")
+            temp_GA.append((new_sol, cost))
     return temp_GA
 
 def control_GA():
@@ -81,7 +82,7 @@ def control_GA():
     for x in range (1,4):
         print ("GENERATION ", x)
         print("------------------------------------")
-        new_gen_sol = gen_algo(new_gen_sol)
+        new_gen_sol = sort_arr(gen_algo(new_gen_sol))
         print(*new_gen_sol, sep = "\n")
         
         

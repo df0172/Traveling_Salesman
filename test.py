@@ -19,36 +19,52 @@ labels = {e: G.edges[e]['weight'] for e in G.edges}
 nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
 #plt.show()
 
-route = []
-gen_1_sol = []
-for x in range(10):
-    route.append(x)
+
 
 """for x in route:
     print(x)"""
 
-for x in range(10):
-    temp = random.sample(route, len(route))
-    temp.append(temp[0])
-    cost = path_weight(G, temp, weight="weight")
-    gen_1_sol.append((temp, cost))
-    print (gen_1_sol[x])
-    print (*temp)
-    print ("------------------------")
 
-"""
-temp = random.shuffle(route)
-for x in range(temp):
-    print(x)"""
-"""
-from networkx.algorithms import approximation as approx
-cycle = approx.simulated_annealing_tsp(G, "greedy", source=0, alpha=.01)
-print(cycle)
-cost = sum(G[n][nbr]["weight"] for n, nbr in nx.utils.pairwise(cycle))
-print(cost)
+def intial_sample(route, intial_sol):
+    for x in range(10):
+        temp = random.sample(route, len(route))
+        temp.append(temp[0])
+        cost = path_weight(G, temp, weight="weight")
+        intial_sol.append((temp, cost))
+        print (intial_sol[x])
+        print (*temp)
+        print ("------------------------")
 
-cycle = approx.greedy_tsp(G, source=0)
-print(cycle)
-cost = sum(G[n][nbr]["weight"] for n, nbr in nx.utils.pairwise(cycle))
-print(cost)
-"""
+def sort_arr(array):
+    x = sorted(array, key=getKey)
+    #print(x)
+    return x
+
+def getKey(item):
+    return item[1]
+
+def gen_algo(num, GA_arr):
+    temp_arr = GA_arr
+    print(temp_arr)
+    temp_GA = temp_arr[:5]
+
+    print("-------------")
+    print(temp_GA)
+
+    
+
+def control_GA():
+    route = []
+    intial_sol = []
+    for x in range(10):
+        route.append(x)
+    
+    intial_sample(route, intial_sol)
+    GA_arr = sort_arr(intial_sol)
+    gen_algo(5, GA_arr)
+
+   
+
+
+# Main Function:
+control_GA()

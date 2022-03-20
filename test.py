@@ -2,7 +2,10 @@ import matplotlib.pyplot as plt
 # import required module
 import networkx as nx
 import random
+from networkx.classes.function import path_weight
 # create object
+
+
 G = nx.complete_graph(10)
 for (u, v) in G.edges():
     G.edges[u,v]['weight'] = random.randint(0,1000)
@@ -12,7 +15,7 @@ pos = nx.spring_layout(G)
 nx.draw(G, node_color = 'green',
 			node_size=500, pos=pos, with_labels = True)
 labels = {e: G.edges[e]['weight'] for e in G.edges}
-print(labels)
+#print(labels)
 nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
 #plt.show()
 
@@ -25,12 +28,18 @@ for x in range(10):
     print(x)"""
 
 for x in range(10):
-    temp = random.shuffle(route)
-    cost = sum(G[n][nbr]["weight"] for n, nbr in nx.utils.pairwise(temp))
-    gen_1_sol.append(temp, cost)
-    print (gen_1_sol)
+    temp = random.sample(route, len(route))
+    temp.append(temp[0])
+    cost = path_weight(G, temp, weight="weight")
+    gen_1_sol.append((temp, cost))
+    print (gen_1_sol[x])
+    print (*temp)
+    print ("------------------------")
 
-
+"""
+temp = random.shuffle(route)
+for x in range(temp):
+    print(x)"""
 """
 from networkx.algorithms import approximation as approx
 cycle = approx.simulated_annealing_tsp(G, "greedy", source=0, alpha=.01)

@@ -1,8 +1,10 @@
+from operator import ne
 import matplotlib.pyplot as plt
 # import required module
 import networkx as nx
 import random
 from networkx.classes.function import path_weight
+from numpy import array
 # create object
 
 
@@ -43,13 +45,29 @@ def sort_arr(array):
 def getKey(item):
     return item[1]
 
-def gen_algo(num, GA_arr):
+def mutation_func(parent_sol):
+    index_1 = random.randint(1,10)
+    index_2 = random.randint(1,10)
+
+    while (index_1 == index_2):
+        index_2 = random.randint(1,10)
+
+    temp = parent_sol[index_1]
+    parent_sol[index_1] = parent_sol[index_2]
+    parent_sol[index_2] = temp
+
+    return parent_sol
+
+
+def gen_algo(GA_arr):
     temp_GA = GA_arr[:5]
-
-    print("-------------")
-    print(temp_GA)
-
-
+    for parent in range (5):
+        for mutation in range (10):
+            new_sol = mutation_func(temp_GA[parent][0])
+            #cost = path_weight(G, new_sol, weight="weight")
+            temp_GA.append((new_sol, 0))
+    
+    return temp_GA
 
 def control_GA():
     route = []
@@ -59,8 +77,14 @@ def control_GA():
     
     intial_sample(route, intial_sol)
     intial_sol = sort_arr(intial_sol)
-    gen_algo(5, intial_sol)
-
+    new_gen_sol = gen_algo(intial_sol)
+    for x in range (1,4):
+        print ("GENERATION ", x)
+        print("------------------------------------")
+        new_gen_sol = gen_algo(new_gen_sol)
+        print(*new_gen_sol, sep = "\n")
+        
+        
    
 
 

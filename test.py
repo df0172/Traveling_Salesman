@@ -44,14 +44,12 @@ def getKey(item):
     return item[1]
 
 def gen_algo(num, GA_arr):
-    temp_arr = GA_arr
-    print(temp_arr)
-    temp_GA = temp_arr[:5]
+    temp_GA = GA_arr[:5]
 
     print("-------------")
     print(temp_GA)
 
-    
+
 
 def control_GA():
     route = []
@@ -60,8 +58,8 @@ def control_GA():
         route.append(x)
     
     intial_sample(route, intial_sol)
-    GA_arr = sort_arr(intial_sol)
-    gen_algo(5, GA_arr)
+    intial_sol = sort_arr(intial_sol)
+    gen_algo(5, intial_sol)
 
    
 

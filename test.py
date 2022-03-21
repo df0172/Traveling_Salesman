@@ -8,7 +8,7 @@ from numpy import array
 # create object
 
 
-G = nx.complete_graph(10)
+G = nx.complete_graph(50)
 for (u, v) in G.edges():
     G.edges[u,v]['weight'] = random.randint(0,1000)
     #print(u,v,G.edges[u,v])
@@ -33,9 +33,9 @@ def intial_sample(route, intial_sol):
         temp.append(temp[0])
         cost = path_weight(G, temp, weight="weight")
         intial_sol.append((temp, cost))
-        print (intial_sol[x])
-        print (*temp)
-        print ("------------------------")
+        #print (intial_sol[x])
+        #print (*temp)
+        #print ("------------------------")
 
 def sort_arr(array):
     x = sorted(array, key=getKey)
@@ -73,21 +73,31 @@ def gen_algo(GA_arr):
 def control_GA():
     route = []
     intial_sol = []
-    for x in range(10):
+    for x in range(50):
         route.append(x)
     
     intial_sample(route, intial_sol)
     intial_sol = sort_arr(intial_sol)
     new_gen_sol = gen_algo(intial_sol)
+    
+
+    text_file = open("GA_processing.txt", "w")
     for x in range (1,4):
-        print ("GENERATION ", x)
-        print("------------------------------------")
+        text_file.write("GENERATION " + str(x) + "\n")
+        text_file.write("------------------------------------\n")
         new_gen_sol = sort_arr(gen_algo(new_gen_sol))
-        print(*new_gen_sol, sep = "\n")
-        
-        
+        text_file.write(str(new_gen_sol))  
+
+    return new_gen_sol
    
-
-
 # Main Function:
-control_GA()
+final = control_GA()
+print("------------------------------")
+print("Graph generating")
+print("------------------")
+print("GA optimizing the path for TSP")
+print("Path: ", final[0][0])
+print("Coat: ", final[0][1])
+print("------------------")
+
+
